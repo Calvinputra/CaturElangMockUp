@@ -46,7 +46,7 @@
                     #E3634D8a 71.428%,
                     #E3634D8a 100%
                 ),
-                url("{{ asset('images/background.jpg') }}") center/cover no-repeat;
+                url("/images/background.jpg") center/cover no-repeat;
             z-index: -1;
         }
 
@@ -174,7 +174,7 @@
 
         @media (max-width: 980px) {
             .page::before {
-                background: url("{{ asset('images/background.jpg') }}") center/cover no-repeat !important;
+                background: url("/images/background.jpg") center/cover no-repeat !important;
             }
 
             .content-wrapper-warning {
@@ -245,13 +245,11 @@
                 filter: invert(1);
             }
 
-            .download-text{
+            .download-text {
                 display: none;
             }
         }
-
     </style>
-
 </head>
 <body>
 
@@ -260,7 +258,7 @@
         <section class="warning-panel">
             <div class="warning-inner">
                 <div class="warning-header">
-                    <img src="{{ asset('images/exclamation-triangle.svg') }}" class="warning-svg">
+                    <img src="/images/exclamation-triangle.svg" class="warning-svg" alt="Warning">
                     <div class="warning-title">Your browser <span>Internet Explorer 11</span> is deprecated</div>
                 </div>
 
@@ -271,43 +269,39 @@
 
                 <a href="#" class="btn-outline">How do I update my browser?</a>
             </div>
-
         </section>
     </div>
 
-    <div class="content-wrapper">
-        @php
-            $browsers = [
-                ['name'=>'GOOGLE CHROME','version'=>'Version 40+','class'=>'chrome','icon'=>'chrome.svg'],
-                ['name'=>'MOZILLA FIREFOX','version'=>'Version 40+','class'=>'firefox','icon'=>'firefox-browser.svg'],
-                ['name'=>'MICROSOFT EDGE','version'=>'Version 40+','class'=>'edge','icon'=>'edge.svg'],
-                ['name'=>'APPLE SAFARI','version'=>'Version 40+','class'=>'safari','icon'=>'safari.svg'],
-                ['name'=>'OPERA','version'=>'Version 40+','class'=>'opera','icon'=>'opera.svg'],
-            ];
-        @endphp
+    <section class="browser-list" id="browserList"></section>
 
-        <section class="browser-list">
-            @foreach ($browsers as $index => $b)
-            <div class="browser-item {{ $b['class'] }}" data-bg="{{ $index + 1 }}">
-                
-                <img src="{{ asset('images/'.$b['icon']) }}" class="browser-svg">
+    <script>
+        const browsers = [
+            {name: "GOOGLE CHROME", version: "Version 40+", icon: "chrome.svg", bg: 1},
+            {name: "MOZILLA FIREFOX", version: "Version 40+", icon: "firefox-browser.svg", bg: 2},
+            {name: "MICROSOFT EDGE", version: "Version 40+", icon: "edge.svg", bg: 3},
+            {name: "APPLE SAFARI", version: "Version 40+", icon: "safari.svg", bg: 4},
+            {name: "OPERA", version: "Version 40+", icon: "opera.svg", bg: 5},
+        ];
 
-                <div class="browser-text">
-                    <h3>{{ $b['name'] }}</h3>
-                    <p>{{ $b['version'] }}</p>
+        const container = document.getElementById("browserList");
+
+        browsers.forEach(browser => {
+            container.innerHTML += `
+                <div class="browser-item" data-bg="${browser.bg}">
+                    <img src="/images/${browser.icon}" class="browser-svg" alt="${browser.name}">
+                    <div class="browser-text">
+                        <h3>${browser.name}</h3>
+                        <p>${browser.version}</p>
+                    </div>
+                    <a href="#" class="btn-download">
+                        <span class="download-text">Download</span>
+                        <img src="/images/download.svg" class="download-icon">
+                    </a>
                 </div>
+            `;
+        });
+    </script>
 
-                <a href="#" class="btn-download">
-                    <span class="download-text">Download</span>
-                    <img src="{{ asset('images/download.svg') }}" class="download-icon">
-                </a>
-
-            </div>
-            @endforeach
-        </section>
-
-
-    </div>
 </div>
 
 </body>
